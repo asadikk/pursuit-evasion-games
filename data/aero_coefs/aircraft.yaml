@@ -1,0 +1,43 @@
+aircraft:
+  name: Large UAV - NACA 0012 Airfoil
+  wing_airfoil: NACA 0012
+  body_axes: x_forward_y_right_z_down
+
+geometry:
+  wing_area_m2: 8.0
+  wingspan_m: 7.2
+  mean_aerodynamic_chord_m: 1.15
+  com_body_m: [0.08, 0.0, 0.03]
+  thrust_application_point_body_m: [-1.15, 0.0, 0.02]
+
+mass_properties:
+  mass_kg: 350.0
+  inertia_kg_m2:
+    Ixx: 620.0
+    Iyy: 910.0
+    Izz: 1450.0
+    Ixy: 0.0
+    Ixz: 35.0
+    Iyz: 0.0
+
+propulsion:
+  type: abstracted
+  max_thrust_N: 2100.0
+  thrust_axis_body: [1.0, 0.0, 0.0]
+
+control_limits_deg:
+  elevator: [-20.0, 20.0]
+  aileron: [-20.0, 20.0]
+  rudder: [-25.0, 25.0]
+
+lookup_envelope:
+  alpha_deg: [-10.0, 20.0]
+  beta_deg: [-15.0, 15.0]
+  mach: [0.10, 0.30]
+
+notes:
+  - All lookup-table angular inputs are degrees.
+  - Aerodynamic coefficients are dimensionless.
+  - Control CSVs contain coefficient increments relative to neutral.
+  - This dataset was generated via VSPAERO.
+  - NACA 0012 alone does not determine whole-aircraft coefficients; these values define a coherent generic large UAV aircraft model for simulation development.
