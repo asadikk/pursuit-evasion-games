@@ -2,7 +2,7 @@
 import numpy as np
 from numpy.typing import NDArray
 
-name = "Michael"
+name = "Mbappe abd"
 print(f"Hello {name}")
 
 class Aircraft:
