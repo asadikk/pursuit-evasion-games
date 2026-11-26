@@ -1,6 +1,6 @@
 initial_conditions:
-  pursuer_position: [0.0, 0.0, 100.0]
-  pursuer_velocity: [100.0, 0.0, 0.0]
+  pursuer_position: [1400.0, -2700.0, 100.0]
+  pursuer_velocity: [-7.000328, 99.754676, 0.0]
   evader_position: [1000.0, 3000.0, 100.0]
   evader_velocity: [80.0, -60.0, 0.0]
   destination: [5000.0, 0.0, 100.0]
@@ -8,12 +8,16 @@ initial_conditions:
   spawn_altitude: [50.0, 500.0]
   min_separation: 1000.0
   evader_speed_ratio: 1.0
+  pursuer_distance_ratio: 0.9
+  max_heading_offset: 30.0
 
 simulation:
   evasion_gain: 80.0
   destination_gain: 70.0
   navigation_constant: 4.0
   intercept_radius: 5.0
+  arrival_radius: 50.0
   evasion_range: 800.0
-  max_acceleration: 80.0
+  pursuer_max_acceleration: 80.0
+  evader_max_acceleration: 40.0
   seeker_half_angle: 45.0

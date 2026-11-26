@@ -64,6 +64,9 @@ class Evader(Aircraft):
             evader_position
         )
 
+        if self._reaches_destination_first(pursuer_state, evader_state):
+            evasion_weight = 0.0
+
         destination_vector: NDArray[np.float64] = self._perpendicular_comp(
             evade_to_dest,
             evader_unit_vector
@@ -101,6 +104,40 @@ class Evader(Aircraft):
         distance: float = np.linalg.norm(evader_position - pursuer_position)
 
         return float(np.clip(1.0 - distance / self.evasion_range, 0.0, 1.0))
+
+
+    def _reaches_destination_first(
+            self,
+            pursuer_state: NDArray[np.float64],
+            evader_state: NDArray[np.float64]
+    ) -> bool:
+        """
+            Returns True when the evader will reach its destination before the
+            pursuer can close the distance to it, in which case evading would
+            only throw away an arrival that is already secured.
+
+            The evader's time to the destination is its distance to the
+            destination divided by its speed. The pursuer's time to catch the
+            evader is the distance between them divided by the rate at which
+            that distance is currently shrinking, and it never catches the
+            evader while the distance is not shrinking at all.
+        """
+        evader_position: NDArray[np.float64] = evader_state[:3]
+        evader_velocity: NDArray[np.float64] = evader_state[3:]
+
+        relative_position: NDArray[np.float64] = evader_position - pursuer_state[:3]
+        relative_velocity: NDArray[np.float64] = evader_velocity - pursuer_state[3:]
+        separation: float = float(np.linalg.norm(relative_position))
+
+        closing_speed: float = -float(np.dot(relative_position, relative_velocity)) / separation
+
+        if closing_speed <= 0.0:
+            return True
+
+        time_to_destination: float = float(np.linalg.norm(self.destination - evader_position)) / float(np.linalg.norm(evader_velocity))
+        time_to_catch: float = separation / closing_speed
+
+        return time_to_destination <= time_to_catch
 
 
     def _pursuer_to_evader(

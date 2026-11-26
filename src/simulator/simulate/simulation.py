@@ -43,14 +43,17 @@ def run_simulation(
         evader: Evader,
         dt: float,
         num_steps: int,
-        intercept_radius: float
+        intercept_radius: float,
+        arrival_radius: float
 ) -> pd.DataFrame:
     """
         Steps the joint pursuer and evader state forward with RK4 and records
         the time, position and velocity of both aircrafts at every step. The run
         ends early once the distance between both aircrafts falls below the
         intercept radius, which is labeled a hit in the outcome column and marks
-        that final row with intercepted = 1, otherwise it runs for the full
+        that final row with intercepted = 1. It also ends early once the evader
+        comes within the arrival radius of its destination, which is labeled a
+        miss since the pursuer failed to stop it. Otherwise it runs for the full
         number of steps and is labeled a miss.
     """
     trajectory: list[NDArray[np.float64]] = []
@@ -86,6 +89,12 @@ def run_simulation(
 
         if closest_approach(previous_offset, current_offset) < intercept_radius:
             hit = True
+            break
+
+        previous_to_destination: NDArray[np.float64] = evader.destination - trajectory[-2][7:10]
+        current_to_destination: NDArray[np.float64] = evader.destination - evader.state[:3]
+
+        if closest_approach(previous_to_destination, current_to_destination) < arrival_radius:
             break
 
     data: pd.DataFrame = pd.DataFrame(trajectory, columns=COLUMNS)
