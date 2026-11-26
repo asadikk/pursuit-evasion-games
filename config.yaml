@@ -1,13 +1,13 @@
 initial_conditions:
-  pursuer_position: [1400.0, -2700.0, 100.0]
-  pursuer_velocity: [-7.000328, 99.754676, 0.0]
-  evader_position: [1000.0, 3000.0, 100.0]
-  evader_velocity: [80.0, -60.0, 0.0]
-  destination: [5000.0, 0.0, 100.0]
+  pursuer_position: [1360.219787, -2729.83516, 400.0]
+  pursuer_velocity: [-6.164907, 98.062084, 27.382870]
+  evader_position: [1000.0, 3000.0, 2000.0]
+  evader_velocity: [78.446454, -58.834841, -19.611614]
+  destination: [5000.0, 0.0, 1000.0]
   spawn_distance: [3000.0, 6000.0]
-  spawn_altitude: [50.0, 500.0]
+  spawn_altitude: [100.0, 3000.0]
   min_separation: 1000.0
-  evader_speed_ratio: 1.0
+  evader_speed_ratio: 0.98039216
   pursuer_distance_ratio: 0.9
   max_heading_offset: 30.0
 
