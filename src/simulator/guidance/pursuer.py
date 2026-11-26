@@ -9,10 +9,14 @@ class Pursuer(Aircraft):
             self,
             position: NDArray[np.float64],
             velocity: NDArray[np.float64],
-            navigation_constant: float
+            navigation_constant: float,
+            max_acceleration: float,
+            seeker_half_angle: float
     ) -> None:
         super().__init__(position, velocity)
         self.navigation_constant = navigation_constant
+        self.max_acceleration = max_acceleration
+        self.seeker_half_angle = np.radians(seeker_half_angle)
 
 
     def relative_position(
@@ -94,6 +98,24 @@ class Pursuer(Aircraft):
         omega_LOS: NDArray[np.float64] = self.omega_LOS(relative_position, relative_velocity, relative_position_magnitude)
         pursuer_unit_vector: NDArray[np.float64] = self.pursuer_unit_vector(pursuer_state[3:])
 
+        line_of_sight: NDArray[np.float64] = relative_position / relative_position_magnitude
+        heading_error: float = np.arccos(np.clip(np.dot(line_of_sight, pursuer_unit_vector), -1.0, 1.0))
+
+        if closing_speed <= 0 or heading_error > self.seeker_half_angle:
+            """
+                Proportional navigation only holds while the distance is closing and
+                the evader is roughly ahead, otherwise a negative closing speed flips
+                the command and a near zero one barely turns the pursuer. Until the
+                evader is inside the seeker half angle the pursuer turns as hard as
+                it can toward the line of sight.
+            """
+            turn_direction: NDArray[np.float64] = self.perpendicular_unit(
+                line_of_sight,
+                pursuer_unit_vector
+            )
+
+            return self.max_acceleration * turn_direction
+
         a_PN: NDArray[np.float64] = (
             self.navigation_constant
             *
@@ -102,6 +124,6 @@ class Pursuer(Aircraft):
             np.cross(omega_LOS, pursuer_unit_vector)
         )
 
-        return a_PN
+        return self.limit_acceleration(a_PN, self.max_acceleration)
 
 
