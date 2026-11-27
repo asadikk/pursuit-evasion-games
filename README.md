@@ -2,7 +2,7 @@
 
 A Python simulator for two agents moving in three dimensions. The pursuer responds to the evader's motion while the evader steers toward a fixed destination. Each run produces a CSV trajectory that you can replay or analyze. The model tracks position and velocity in world coordinates and advances both agents together using fourth-order Runge–Kutta integration (RK4).
 
-[Read the technical report (PDF)](<assets/report(1).pdf>)
+[Read the technical report (PDF)](<assets/report.pdf>)
 
 <p align="center">
   <img src="assets/runs_visual.gif" alt="Animated 3D trajectories from consecutive simulation runs" width="480">
