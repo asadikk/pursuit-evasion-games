@@ -2,18 +2,19 @@
 
 A Python simulator for two agents moving in three dimensions. The pursuer responds to the evader's motion while the evader steers toward a fixed destination. Each run produces a CSV trajectory that you can replay or analyze. The model tracks position and velocity in world coordinates and advances both agents together using fourth-order Runge–Kutta integration (RK4).
 
-This project is supposed to serve as a pre-lude to my upcoming project regarding probabilistic methods of determining an evader's future most-likely trajectories
-using neural-networks.
+[Read the technical report (PDF)](<assets/report(1).pdf>)
 
-[Read the technical report (PDF)](<assets/report.pdf>)
-
-![Animated 3D trajectories from consecutive simulation runs](assets/runs_visual.gif)
+<p align="center">
+  <img src="assets/runs_visual.gif" alt="Animated 3D trajectories from consecutive simulation runs" width="480">
+</p>
 
 The open circles mark the initial positions, the filled markers show the agents at the displayed time, and the star marks the destination.
 
 ## Simulator workflow
 
-![Batch workflow from configuration and initial-state selection through simulation and CSV output](assets/workflow.png)
+<p align="center">
+  <img src="assets/workflow.png" alt="Batch workflow from configuration and initial-state selection through simulation and CSV output" width="580">
+</p>
 
 [Open the editable workflow diagram](assets/workflow.drawio)
 
